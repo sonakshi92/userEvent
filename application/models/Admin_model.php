@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Kolkata');
 
 class Admin_model extends CI_Model {
  
@@ -30,6 +31,18 @@ class Admin_model extends CI_Model {
     public function getuser()
     {
         $query = $this->db->get('user');
+        return $query->result();
+    }
+
+    public function viewEvent($id){
+        $date = new DateTime("now");
+        $curr_date = $date->format('Y-m-d ');
+        $this->db->select(['user.id', 'user.name', 'event.id', 'event.event', 'event.uid', 'event.created_at'])
+                 ->from('event')
+                 ->join('user', 'event.uid = user.id')
+                 ->where(['user.id' => $id]);
+        $this->db->where('DATE(created_at)', $curr_date);
+        $query = $this->db->get();
         return $query->result();
     }
     

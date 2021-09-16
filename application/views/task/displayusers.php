@@ -10,7 +10,7 @@
             <th>  ACTION</th>
         </tr>
     </thead>
-    <?php// print_r($eventdata); ?>
+    <?php //print_r($userdata); ?>
     
     <tbody>
         <?php if(count($userdata)): ?>
@@ -18,8 +18,8 @@
         <tr>
             <td> <?php echo $row->name; ?> </td>
             <td> <?php echo $row->email; ?> </td>
-            <td> <?php echo $row->created_at; ?> </td>
-            <td> <?php echo anchor("admin/user/{$row->id}", "VIEW EVENT", ['class'=>'btn btn-success']); ?> 
+            <td> <?php echo $row->u_created_at; ?> </td>
+            <td> <?php echo anchor("admin/viewEvent/{$row->id}", "VIEW EVENT", ['class'=>'btn btn-success']); ?> 
             </td>
 
         </tr>

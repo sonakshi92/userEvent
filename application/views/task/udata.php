@@ -10,7 +10,7 @@
 <?php } ?>
 <?php echo form_open('user/udata', array('id' => 'signupForm', 'class' => 'sign-form'))?>
     <div class="form-group">
-        <?php echo form_input(['name' => 'event', 'class' => 'form-control', 'placeholder' => 'EVENT ID', 'value' => set_value('event')]); ?>
+        <?php echo form_input(['name' => 'event', 'class' => 'form-control', 'placeholder' => 'EVENT ID', 'value' => set_value('event'),  'autofocus'   => 'autofocus']); ?>
         <?php echo form_error('event', '<div class="error alert alert-danger" style="color:red">', '</div>') ?><br>
     </div>
     <div class="form-group">

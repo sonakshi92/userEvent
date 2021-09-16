@@ -51,7 +51,7 @@ class Admin extends CI_Controller {
                     'email' => $this->input->post('email', TRUE),
                     'password' => md5($this->input->post('password', TRUE)),
                     'mobile' => $this->input->post('mobile', TRUE),
-                    'created_at' => date('Y-m-d H:i:s', time()),
+                    'a_created_at' => date('Y-m-d H:i:s', time()),
                 );
                 $this->Admin_model->save($admindata);
                 $this->session->set_flashdata('message', 'Registration of Admin is successful');
@@ -63,40 +63,46 @@ class Admin extends CI_Controller {
    
     public function asignin()
 	{
-        $data['title'] = "Admin Login";
+        if( $this->session->autenticated){
+            $this->session->set_flashdata('message', 'Already Logged in');
+            redirect('admin/adata');
+          } else
+          {
+            $data['title'] = "Admin Login";
 
-        $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('password', 'password', 'required');
 
-            if($this->form_validation->run() == false)
-            {
-                $this->load->view('include/header', $data);
-                $this->load->view('task/asignin', $data);
-                $this->load->view('include/footer', $data);
-            } 
-            else{
-                $email = $this->security->xss_clean($this->input->post('email'));
-                $password = $this->security->xss_clean($this->input->post('password'));
+                if($this->form_validation->run() == false)
+                {
+                    $this->load->view('include/header', $data);
+                    $this->load->view('task/asignin', $data);
+                    $this->load->view('include/footer', $data);
+                } 
+                else{
+                    $email = $this->security->xss_clean($this->input->post('email'));
+                    $password = $this->security->xss_clean($this->input->post('password'));
 
-                $admin = $this->Admin_model->login($email, $password);
-//echo "<pre>"; print_r($admindata);
-             if($admin){
-                $admindata = array(
-                    'id' => $admin->id,
-                    'name' =>$admin->name,
-                    'mobile' => $admin->mobile,
-                    'autenticated' => TRUE
-                );
-//echo "<pre>"; print_r($admindata);
+                    $admin = $this->Admin_model->login($email, $password);
+                    //echo "<pre>"; print_r($admindata);
+                if($admin){
+                    $admindata = array(
+                        'id' => $admin->id,
+                        'name' =>$admin->name,
+                        'mobile' => $admin->mobile,
+                        'autenticated' => TRUE
+                    );
+                     //echo "<pre>"; print_r($admindata);
 
-                $this->session->set_userdata($admindata);
-//                print_r($_SESSION); exit; 
-                redirect('admin/adata');
-            }
-            else
-            {
-              $this->session->set_flashdata('message', 'Invalid email or password');
-              redirect('admin/asignin');
+                    $this->session->set_userdata($admindata);
+                     // print_r($_SESSION); exit; 
+                    redirect('admin/adata');
+                }
+                else
+                {
+                $this->session->set_flashdata('message', 'Invalid email or password');
+                redirect('admin/asignin');
+                }
             }
         }
 	}
@@ -116,8 +122,8 @@ class Admin extends CI_Controller {
         {
             $data['title'] = "Admin Details";
             $this->load->view('include/header', $data);
-            $this->load->view('task/adata', $data);
-            $this->load->view('include/footer', $data);
+            $this->load->view('task/adata');
+            $this->load->view('include/footer');
         //    redirect('admin/asignin');
 	    }
     }
@@ -139,15 +145,15 @@ class Admin extends CI_Controller {
 
             if($this->form_validation->run() == FALSE){
                 $this->load->view('include/header', $data);
-                $this->load->view('task/usignup', $data);
-                $this->load->view('include/footer', $data);
+                $this->load->view('task/usignup');
+                $this->load->view('include/footer');
             } else{
             //echo'<pre>'; print_r($_POST); 
             $userdata = array(
                 'name' => $this->input->post('name', TRUE),
                 'email' => $this->input->post('email', TRUE),
                 'password' => md5($this->input->post('password', TRUE)),
-                'created_at' => date('Y-m-d H:i:s', time()),
+                'u_created_at' => date('Y-m-d H:i:s', time()),
             );
             $this->User_model->save($userdata);
             $this->session->set_flashdata('message', 'Registration of User is successful');
@@ -165,7 +171,7 @@ class Admin extends CI_Controller {
           {
             $data['title'] = "Display Users";
             $user = $this->Admin_model->getuser();
-            //echo '<pre>'; print_r($user); 
+           // echo '<pre>'; print_r($user); 
             $data['userdata'] = $user;
             
             $this->load->view('include/header', $data);
@@ -174,4 +180,20 @@ class Admin extends CI_Controller {
           }
 	}
 
+    public function viewEvent($id){
+        if(! $this->session->autenticated){
+            $this->session->set_flashdata('message', 'Please Login ADMIN');
+            redirect('admin/asignin');
+          } else
+          {
+            $data['title'] = "Display Events Created by users";
+            $getevent = $this->Admin_model->viewEvent($id);
+            //echo '<pre>'; print_r($getevent); 
+            $data['viewEvent'] = $getevent;
+            $data['totalEvent']= count($getevent);
+            $this->load->view('include/header', $data);
+            $this->load->view('task/viewEvents');
+            $this->load->view('include/footer');
+          }
+    }
 }

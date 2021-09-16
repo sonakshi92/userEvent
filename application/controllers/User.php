@@ -23,39 +23,45 @@ class User extends CI_Controller {
    
     public function usignin()
 	{
-        $data['title'] = "User Login";
+        if( $this->session->autenticate){
+            $this->session->set_flashdata('message', 'Already Logged in');
+            redirect('user/udata');
+          } else
+          {
+            $data['title'] = "User Login";
 
-        $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('password', 'password', 'required');
 
-            if($this->form_validation->run() == false)
-            {
-                $this->load->view('include/header', $data);
-                $this->load->view('task/usignin');
-                $this->load->view('include/footer');
-            } 
-            else{
-                $email = $this->security->xss_clean($this->input->post('email'));
-                $password = $this->security->xss_clean($this->input->post('password'));
+                if($this->form_validation->run() == false)
+                {
+                    $this->load->view('include/header', $data);
+                    $this->load->view('task/usignin');
+                    $this->load->view('include/footer');
+                } 
+                else{
+                    $email = $this->security->xss_clean($this->input->post('email'));
+                    $password = $this->security->xss_clean($this->input->post('password'));
 
-                $user = $this->User_model->login($email, $password);
-//echo "<pre>"; print_r($userdata);
-             if($user){
-                $userdata = array(
-                    'id' => $user->id,
-                    'name' =>$user->name,
-                    'autenticate' => TRUE
-                );
-//echo "<pre>"; print_r($userdata);
+                    $user = $this->User_model->login($email, $password);
+                    //echo "<pre>"; print_r($userdata);
+                if($user){
+                    $userdata = array(
+                        'id' => $user->id,
+                        'name' =>$user->name,
+                        'autenticate' => TRUE
+                    );
+                    //echo "<pre>"; print_r($userdata);
 
-                $this->session->set_userdata($userdata);
-            print_r($_SESSION); 
-                redirect('user/udata');
-            }
-            else
-            {
-              $this->session->set_flashdata('message', 'Invalid email or password');
-              redirect('user/usignin');
+                    $this->session->set_userdata($userdata);
+                print_r($_SESSION); 
+                    redirect('user/udata');
+                }
+                else
+                {
+                $this->session->set_flashdata('message', 'Invalid email or password');
+                redirect('user/usignin');
+                }
             }
         }
 	}
