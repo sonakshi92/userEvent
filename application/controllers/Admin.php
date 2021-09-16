@@ -96,7 +96,7 @@ class Admin extends CI_Controller {
 
                     $this->session->set_userdata($admindata);
                      // print_r($_SESSION); exit; 
-                    redirect('admin/adata');
+                    redirect('admin/getusers');
                 }
                 else
                 {
@@ -193,6 +193,23 @@ class Admin extends CI_Controller {
             $data['totalEvent']= count($getevent);
             $this->load->view('include/header', $data);
             $this->load->view('task/viewEvents');
+            $this->load->view('include/footer');
+          }
+    }
+
+    public function viewAllEvent($id){
+        if(! $this->session->autenticated){
+            $this->session->set_flashdata('message', 'Please Login ADMIN');
+            redirect('admin/asignin');
+          } else
+          {
+            $data['title'] = "Display Events Created by users";
+            $getevent = $this->Admin_model->viewAllEvent($id);
+            //echo '<pre>'; print_r($getevent); 
+            $data['viewEvent'] = $getevent;
+            $data['totalEvent']= count($getevent);
+            $this->load->view('include/header', $data);
+            $this->load->view('task/viewAllEvents');
             $this->load->view('include/footer');
           }
     }

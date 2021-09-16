@@ -5,7 +5,10 @@
 <br><br><br><br>
 <div class="jumbotron">
 
-<h2> <?php echo anchor('admin/asignup', 'Admin Sign Up')?> </h2>
+<h2> <?php echo anchor('admin/asignup', 'ADD Admin')?> </h2>
 
-<h2> <?php echo anchor('admin/usignup', 'User Sign Up')?> </h2>
+<h2> <?php echo anchor('admin/usignup', 'ADD User')?> </h2>
+
+<h2> <?php echo anchor('admin/getusers', 'VIEW Users')?> </h2>
+
 </div>

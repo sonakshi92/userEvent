@@ -23,7 +23,7 @@
                     <li class="active"> <?php echo anchor('admin/index', 'Home') ?> </li>
                     <?php if( $this->session->autenticated){ ?>
                     <li> <?php echo anchor('admin/adata', 'Admin')?></li>
-                    <li> <?php echo anchor('admin/getusers', 'Display Users')?></li>
+                    <li> <?php echo anchor('admin/getusers', 'VIEW ALL USERS')?></li>
 
                     <?php }?>
 
@@ -37,13 +37,13 @@
 
                 <ul class="nav navbar-nav navbar-right">
                         <?php if( $this->session->autenticated){ ?>
-                    <li><?php echo anchor('admin/asignup', 'Admin Sign Up')?></li>
-                    <li><?php echo anchor('admin/usignup', 'User Sign Up')?></li>
-                    <li><?php echo anchor('admin/logout', 'admin Logout')?></li>
+                    <li><?php echo anchor('admin/asignup', 'ADD ADMIN')?></li>
+                    <li><?php echo anchor('admin/usignup', 'ADD USER')?></li>
+                    <li><?php echo anchor('admin/logout', 'Logout')?></li>
                     <?php }?>
 
                     <?php if( $this->session->autenticate){ ?>
-                    <li><?php echo anchor('user/logout', ' user Logout')?></li>
+                    <li><?php echo anchor('user/logout', ' Logout')?></li>
                     <?php } ?>  
 
 

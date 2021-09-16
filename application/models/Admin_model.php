@@ -46,5 +46,15 @@ class Admin_model extends CI_Model {
         return $query->result();
     }
     
+    public function viewAllEvent($id){
+        $date = new DateTime("now");
+        $curr_date = $date->format('Y-m-d ');
+        $this->db->select(['user.id', 'user.name', 'event.id', 'event.event', 'event.uid', 'event.created_at'])
+                 ->from('event')
+                 ->join('user', 'event.uid = user.id')
+                 ->where(['user.id' => $id]);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }

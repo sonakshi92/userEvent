@@ -19,7 +19,8 @@
             <td> <?php echo $row->name; ?> </td>
             <td> <?php echo $row->email; ?> </td>
             <td> <?php echo $row->u_created_at; ?> </td>
-            <td> <?php echo anchor("admin/viewEvent/{$row->id}", "VIEW EVENT", ['class'=>'btn btn-success']); ?> 
+            <td> <?php echo anchor("admin/viewEvent/{$row->id}", "View Toadys Events", ['class'=>'btn btn-warning']); ?> 
+            <?php echo anchor("admin/viewallEvent/{$row->id}", "View All Events", ['class'=>'btn btn-success']); ?> 
             </td>
 
         </tr>

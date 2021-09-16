@@ -54,7 +54,7 @@ class User extends CI_Controller {
                     //echo "<pre>"; print_r($userdata);
 
                     $this->session->set_userdata($userdata);
-                print_r($_SESSION); 
+                    //print_r($_SESSION); 
                     redirect('user/udata');
                 }
                 else
