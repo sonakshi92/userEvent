@@ -16,6 +16,11 @@ class Admin extends CI_Controller {
     public function index()
 	{
         $chkAdminExist = $this->Admin_model->chkAdminExist();
+        if($chkAdminExist == 0)
+        {
+            $auth = array('check' => TRUE);
+            $this->session->set_userdata($auth);
+        }
 	//	echo $chkAdminExist; exit;
         $data['title'] = "Welcome to User Events";
 		$this->load->view('include/header', $data);
@@ -25,11 +30,11 @@ class Admin extends CI_Controller {
 
     public function asignup()
 	{
-           // if(!$this->session->autenticated){
-             // $this->session->set_flashdata('message', 'Please Login Admin');
-             // redirect('admin/asignin');
-            //} else
-            //{
+            if(!($this->session->autenticated || $this->session->check)){
+             $this->session->set_flashdata('message', 'Please Login Admin');
+             redirect('admin/asignin');
+            } else
+            {
                 $data['title'] = "Admin Sign up";
                 $this->form_validation->set_rules('name', 'name', 'trim|required|min_length[5]|max_length[12]');
                 $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|is_unique[admin.email]');
@@ -57,7 +62,7 @@ class Admin extends CI_Controller {
                 $this->session->set_flashdata('message', 'Registration of Admin is successful');
                 redirect('admin/adata');
                 }
-            //}
+            }
 	}
 
    
